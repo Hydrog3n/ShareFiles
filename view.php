@@ -23,6 +23,6 @@
                     }
                   }
                 ?>
-            		<h1 class="cover-heading"><?php echo $file->file_name(); ?></h1>
+            		<h1 class="cover-heading"><?php echo $file->file_name()." (".$file->file_size().")"; ?></h1>
                 <a href="./download.php?f=<?php echo $file->file_name(); ?>"><button class="btn btn-lg btn-default">Télécharger</button></a>
           		</div>

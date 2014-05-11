@@ -3,23 +3,25 @@
 // autoload des class
 
 function __autoload($class_name) {
-    include 'class/'.$class_name . '.class.php';
+    include_once 'class/'.$class_name . '.class.php';
 }
 
 require_once 'config.php';
 require_once 'function.inc.php';
 
-//print_r($_FILES);
+print_r($_FILES);
 
 if (isset($_FILES['fichier']) AND $_FILES['fichier']['error'] == 0) {
 	$file = new files($_FILES['fichier']);
 	//echo $file->file_name();
 	//echo $file->file_name_tmp();
-	if (in_array($file->file_extend(), $extend_files))
-    {
-    	$log = $file->saveFile();
-    	echo $log;
-    } else echo "erreur";
+	if (!file_exists("./files/".$file->file_name())) {
+		if (in_array($file->file_extend(), $extend_files))
+	    {
+	    	$log = $file->saveFile();
+	    	
+	    } else $info_upload = "Erreur l'upload n'a pu être effectuer";
+	} else $log="TRUE";
 }
 
 

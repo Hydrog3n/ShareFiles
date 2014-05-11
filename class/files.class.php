@@ -17,7 +17,7 @@ class files
 			$this->file_download = downloadInfo($file['name']);
 
 		$this->file_name = $file['name'];
-		$this->file_size = $file['size'];
+		$this->file_size = $this->convSize($file['size']);
 		$this->file_extend = strrchr($file['name'], '.');
 	}
 	public function saveFile()
@@ -27,6 +27,16 @@ class files
 		else 
 			$log = "FALSE";
 		return $log; 
+	}
+
+	private function convSize($octets)
+	{
+		$unit = array('O','Ko','Mo','Go','To','Po','Eo');
+        for ($i=0; $octets >= 1024; $i++) {
+            $octets = $octets / 1024;
+        }
+        $result = round($octets, 2).' '.$unit[$i];
+        return $result;
 	}
 
 	private function downloadInfo($file_name) {
