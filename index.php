@@ -9,18 +9,20 @@ function __autoload($class_name) {
 require_once 'config.php';
 require_once 'function.inc.php';
 
-print_r($_FILES);
+//print_r($_FILES);
 
 if (isset($_FILES['fichier']) AND $_FILES['fichier']['error'] == 0) {
 	$file = new files($_FILES['fichier']);
 	//echo $file->file_name();
 	//echo $file->file_name_tmp();
+	//echo $file->file_size();
+
 	if (!file_exists("./files/".$file->file_name())) {
-		if (in_array($file->file_extend(), $extend_files))
+		if (in_array($file->file_extend(), $extend_files) && $file->file_size() <= $max_size)
 	    {
 	    	$log = $file->saveFile();
 	    	
-	    } else $info_upload = "Erreur l'upload n'a pu être effectuer";
+	    } else echo  "Erreur l'upload n'a pu être effectuer (Extension interdite ou Taille trop grade)";
 	} else $log="TRUE";
 }
 
@@ -30,7 +32,7 @@ include 'header.php';
 
 if(isset($_GET['p']) && $_GET['p'] == "administration")
 	include 'admin_dashboard.php';
-else if (isset($log) && $log == "TRUE")
+else if ((isset($log) && $log == "TRUE" ) || isset($_GET['f']))
 	include "view.php";
 else 
 	include 'body.php';

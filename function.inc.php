@@ -7,3 +7,10 @@ function listWord($array)
 			echo ", ";
 	}
 }
+
+function infoFile($file) {
+
+	$info['name'] = basename($file);
+	$info['size'] = filesize($file);
+	return $info;
+}
