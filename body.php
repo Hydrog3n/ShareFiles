@@ -20,7 +20,7 @@
             				<input type="file" name="fichier">
             				<p class="help-block">Extensions acceptés : <?php listWord($extend_files); ?> - Taille max : <?php echo $max_size; ?>Mo</p>
             			</fieldset>
-            			<input type="submit" name="envoie"class="btn btn-lg btn-default" value ="Envoyer">
+            			<input type="submit" name="envoie"class="btn btn-lg btn-info" value ="Envoyer">
             		</form>
           		</div>
 

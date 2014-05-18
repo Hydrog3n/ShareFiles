@@ -1,6 +1,6 @@
 <?php
 
-class files
+class Files
 {
 	private $file_name;
 	private $file_name_tmp;
@@ -8,6 +8,7 @@ class files
 	private $file_size_human;
 	private $file_download;
 	private $file_extend;
+	private $file_date;
 
 	public function __construct(array $file)
 	{
@@ -21,17 +22,23 @@ class files
 		$this->file_size = $this->convSizeMo($file['size']);
 		$this->file_size_human = $this->convSize($file['size']);
 		$this->file_extend = strrchr($file['name'], '.');
+
+		if (file_exists("./files/".$file['name']))
+			$this->file_date = date ('d/m/Y', filemtime('./files/'.$file['name']));
+		else 
+			$this->file_date = date ('d/m/Y', filemtime($file['tmp_name']));
+		
 	}
 	public function saveFile()
 	{
-		if(move_uploaded_file($this->file_name_tmp, 'files/'.basename($this->file_name)))
+		if(move_uploaded_file($this->file_name_tmp, './files/'.basename($this->file_name)))
 			$log = "TRUE";
 		else 
 			$log = "FALSE";
 		return $log; 
 	}
 
-	private function convSize($octets)
+	public function convSize($octets)
 	{
 		$unit = array('O','Ko','Mo','Go','To','Po','Eo');
         for ($i=0; $octets >= 1024; $i++) {
@@ -55,4 +62,5 @@ class files
 	public function file_size() { return $this->file_size;}
 	public function file_size_human() { return $this->file_size_human;}
 	public function file_extend() { return $this->file_extend;}
+	public function file_date() { return $this->file_date;}
 }
