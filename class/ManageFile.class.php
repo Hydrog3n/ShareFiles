@@ -37,8 +37,7 @@ class ManageFile
 			}
 			closedir($dir);
 		}
-		//$sizeTotal = $file->convSize($sizeTotal);
-		return array( 'tailleTotale' => $sizeTotal, 'nbFile' => $count);
+		return array( 'tailleTotal' => $sizeTotal, 'nbFile' => $count);
 	}
 	public function getFile($file)
 	{
@@ -50,5 +49,5 @@ class ManageFile
 		$infoFile['name'] = basename($this->directory.$file);
 		$infoFile['size'] = filesize($this->directory.$file);
 		return $infoFile;
-	} 
+	}
 }

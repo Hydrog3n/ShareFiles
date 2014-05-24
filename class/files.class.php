@@ -15,7 +15,7 @@ class Files
 		if (isset($file['tmp_name']))
 			$this->file_name_tmp = $file['tmp_name'];
 
-		if (file_exists("./files/".$file['name'].".txt"))
+		if (file_exists('./files/'.$file['name'].'.txt'))
 			$this->file_download = downloadInfo($file['name']);
 
 		$this->file_name = $file['name'];
@@ -23,19 +23,21 @@ class Files
 		$this->file_size_human = $this->convSize($file['size']);
 		$this->file_extend = strrchr($file['name'], '.');
 
-		if (file_exists("./files/".$file['name']))
+		if (file_exists('./files/'.$file['name'])){
 			$this->file_date = date ('d/m/Y', filemtime('./files/'.$file['name']));
-		else 
+
+		} else {
 			$this->file_date = date ('d/m/Y', filemtime($file['tmp_name']));
-		
+		}
+
 	}
 	public function saveFile()
 	{
 		if(move_uploaded_file($this->file_name_tmp, './files/'.basename($this->file_name)))
 			$log = "TRUE";
-		else 
+		else
 			$log = "FALSE";
-		return $log; 
+		return $log;
 	}
 
 	public function convSize($octets)

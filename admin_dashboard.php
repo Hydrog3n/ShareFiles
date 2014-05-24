@@ -24,8 +24,9 @@
                   <?php 
                     $info = $manage->getInfoTotal();
                     if (!empty($info)){
+
                         echo '<div class="col-md-6">';
-                        echo '<p class="lead"> Taille du repertoire '.$info['tailleTotale'].' Mo</p><p class="lead" >Nombre de fichier : '.$info['nbFile'].'</p>';
+                        echo '<p class="lead"> Taille du repertoire '.$info['tailleTotal'].' Mo</p><p class="lead" >Nombre de fichier : '.$info['nbFile'].'</p>';
                         echo '</div>';
                       
                     } else echo "Il n'y a pas de fichier";
