@@ -16,7 +16,7 @@ class ManageFile
 		$listFile = array();
 		if ($dir = opendir($this->directory)){
 			while(false !== ($fichier = readdir($dir))){
-				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep'){
+				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && $fichier != 'index.html'){
 					$listFile[] = new Files($this->infoFile($fichier));
 				}
 			}
@@ -29,7 +29,7 @@ class ManageFile
 		$count = 0;
 		if ($dir = opendir($this->directory)){
 			while(false !== ($fichier = readdir($dir))) {
-				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep') {
+				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && $fichier != '*.txt') {
 					$file = new Files($this->infoFile($fichier));
 					$sizeTotal += $file->file_size();
 					$count++;
