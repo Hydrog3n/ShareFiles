@@ -21,7 +21,7 @@ if (isset($_FILES['fichier']) AND $_FILES['fichier']['error'] == 0) {
 	    {
 	    	$log = $file->saveFile();
 
-	    } else echo  "Erreur l'upload n'a pu être effectuer (Extension interdite ou Taille trop grade)";
+	    } else echo  "Erreur l'upload n'a pu être effectuer (Extension interdite ou taille trop grande)";
 	} else $log="TRUE";
 }
 
