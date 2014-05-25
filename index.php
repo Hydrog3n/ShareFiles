@@ -3,7 +3,7 @@ session_start();
 
 // autoload des class
 function __autoload($class_name) {
-    include_once 'class/'.$class_name . '.class.php';
+    include_once './class/'.$class_name . '.class.php';
 }
 
 require_once 'config.php';

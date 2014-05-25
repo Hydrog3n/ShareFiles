@@ -24,12 +24,13 @@ class ManageFile
 		}
 		return $listFile;
 	}
+
 	public function getInfoTotal(){
 		$sizeTotal = 0;
 		$count = 0;
 		if ($dir = opendir($this->directory)){
 			while(false !== ($fichier = readdir($dir))) {
-				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && $fichier != '*.txt') {
+				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && preg_match('/.txt$/', $fichier) == 0 ) {
 					$file = new Files($this->infoFile($fichier));
 					$sizeTotal += $file->file_size();
 					$count++;
@@ -39,10 +40,21 @@ class ManageFile
 		}
 		return array( 'tailleTotal' => $sizeTotal, 'nbFile' => $count);
 	}
+
 	public function getFile($file)
 	{
 		$fichier = new Files($this->infoFile($file));
 		return $fichier;
+	}
+
+	public function newDownload($file)
+	{
+		$file_download = fopen($file.'.txt', 'r+');
+		$dl = fgets($file_download);
+		$dl++;
+		fseek($file_download, 0);
+		fputs($file_download, $dl);
+		fclose($file_download);
 	}
 	private function infoFile($file){
 		$infoFile = array();

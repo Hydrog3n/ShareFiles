@@ -15,8 +15,15 @@ class Files
 		if (isset($file['tmp_name']))
 			$this->file_name_tmp = $file['tmp_name'];
 
-		if (file_exists('./files/'.$file['name'].'.txt'))
-			$this->file_download = downloadInfo($file['name']);
+		if (file_exists('./files/'.$file['name'].'.txt')){
+			$this->file_download = $this->downloadInfo($file['name']);
+		}
+		else {
+			$this->file_download = 0;
+			$file_download = fopen('./files/'.$file['name'].'.txt', 'x');
+			fputs($file_download, 0);
+			fclose($file_download);
+		}
 
 		$this->file_name = $file['name'];
 		$this->file_size = $this->convSizeMo($file['size']);
@@ -57,12 +64,25 @@ class Files
         return $result;
 	}
 	private function downloadInfo($file_name) {
-
+		if (file_exists('./files/'.$file_name.'.txt')){
+			$file_lines = file('./files/'.$file_name.'.txt');
+			$download = $file_lines[0];
+		}
+		return $download;
 	}
+	// public function newDownload($file_name) {
+	// 	$file_download = fopen('./files/'.$file_name.'.txt', 'r+');
+	// 	$dl = fgets($file_download);
+	// 	$dl++;
+	// 	fseek($file_download, 0);
+	// 	fputs($file_download, $dl);
+	// 	fclose($file_download);
+	// }
 	public function file_name() { return $this->file_name;}
 	public function file_name_tmp() { return $this->file_name_tmp;}
 	public function file_size() { return $this->file_size;}
 	public function file_size_human() { return $this->file_size_human;}
 	public function file_extend() { return $this->file_extend;}
 	public function file_date() { return $this->file_date;}
+	public function file_download() { return $this->file_download;}
 }
