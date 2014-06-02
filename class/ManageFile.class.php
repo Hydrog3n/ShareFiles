@@ -7,11 +7,13 @@ class ManageFile
 	{
 		$this->directory = $dir;
 	}
+
 	public function add(array $fileInfo)
 	{
 		$file = new Files($fileInfo);
 		return $file;
 	}
+	
 	public function getList(){
 		$listFile = array();
 		if ($dir = opendir($this->directory)){
@@ -47,15 +49,6 @@ class ManageFile
 		return $fichier;
 	}
 
-	public function newDownload($file)
-	{
-		$file_download = fopen($file.'.txt', 'r+');
-		$dl = fgets($file_download);
-		$dl++;
-		fseek($file_download, 0);
-		fputs($file_download, $dl);
-		fclose($file_download);
-	}
 	private function infoFile($file){
 		$infoFile = array();
 		$infoFile['name'] = basename($this->directory.$file);

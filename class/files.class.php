@@ -18,17 +18,11 @@ class Files
 		if (file_exists('./files/'.$file['name'].'.txt')){
 			$this->file_download = $this->downloadInfo($file['name']);
 		}
-		else {
-			$this->file_download = 0;
-			$file_download = fopen('./files/'.$file['name'].'.txt', 'x');
-			fputs($file_download, 0);
-			fclose($file_download);
-		}
 
 		$this->file_name = $file['name'];
 		$this->file_size = $this->convSizeMo($file['size']);
 		$this->file_size_human = $this->convSize($file['size']);
-		$this->file_extend = strrchr($file['name'], '.');
+		$this->file_extend = $this->extendType($file['name']);
 
 		if (file_exists('./files/'.$file['name'])){
 			$this->file_date = date ('d/m/Y', filemtime('./files/'.$file['name']));
@@ -38,12 +32,14 @@ class Files
 		}
 
 	}
+	
 	public function saveFile()
-	{
+	{$log = false;
 		if(move_uploaded_file($this->file_name_tmp, './files/'.basename($this->file_name)))
-			$log = "TRUE";
-		else
-			$log = "FALSE";
+		{
+			$this->createInformationFile();
+			$log = true;
+		}
 		return $log;
 	}
 
@@ -63,6 +59,7 @@ class Files
         $result = round($octets, 2);
         return $result;
 	}
+
 	private function downloadInfo($file_name) {
 		if (file_exists('./files/'.$file_name.'.txt')){
 			$file_lines = file('./files/'.$file_name.'.txt');
@@ -70,14 +67,19 @@ class Files
 		}
 		return $download;
 	}
-	// public function newDownload($file_name) {
-	// 	$file_download = fopen('./files/'.$file_name.'.txt', 'r+');
-	// 	$dl = fgets($file_download);
-	// 	$dl++;
-	// 	fseek($file_download, 0);
-	// 	fputs($file_download, $dl);
-	// 	fclose($file_download);
-	// }
+
+	private function extendType($fileName)
+	{
+		return strrchr($fileName, '.');
+	}
+
+	private function createInformationFile()
+	{
+		$this->file_download = 0;
+		$file_download = fopen('./files/'.$this->file_name().'.txt', 'x');
+		fputs($file_download, 0);
+		fclose($file_download);
+	}
 	public function file_name() { return $this->file_name;}
 	public function file_name_tmp() { return $this->file_name_tmp;}
 	public function file_size() { return $this->file_size;}
