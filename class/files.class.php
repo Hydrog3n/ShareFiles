@@ -15,14 +15,13 @@ class Files
 		if (isset($file['tmp_name']))
 			$this->file_name_tmp = $file['tmp_name'];
 
-		if (file_exists('./files/'.$file['name'].'.txt')){
-			$this->file_download = $this->downloadInfo($file['name']);
-		}
+		if (file_exists('./files/'.$file['name'].'.txt'))
+			$this->file_download = downloadInfo($file['name']);
 
 		$this->file_name = $file['name'];
 		$this->file_size = $this->convSizeMo($file['size']);
 		$this->file_size_human = $this->convSize($file['size']);
-		$this->file_extend = $this->extendType($file['name']);
+		$this->file_extend = strrchr($file['name'], '.');
 
 		if (file_exists('./files/'.$file['name'])){
 			$this->file_date = date ('d/m/Y', filemtime('./files/'.$file['name']));
@@ -32,14 +31,12 @@ class Files
 		}
 
 	}
-	
 	public function saveFile()
-	{$log = false;
+	{
 		if(move_uploaded_file($this->file_name_tmp, './files/'.basename($this->file_name)))
-		{
-			$this->createInformationFile();
-			$log = true;
-		}
+			$log = "TRUE";
+		else
+			$log = "FALSE";
 		return $log;
 	}
 
@@ -59,26 +56,8 @@ class Files
         $result = round($octets, 2);
         return $result;
 	}
-
 	private function downloadInfo($file_name) {
-		if (file_exists('./files/'.$file_name.'.txt')){
-			$file_lines = file('./files/'.$file_name.'.txt');
-			$download = $file_lines[0];
-		}
-		return $download;
-	}
 
-	private function extendType($fileName)
-	{
-		return strrchr($fileName, '.');
-	}
-
-	private function createInformationFile()
-	{
-		$this->file_download = 0;
-		$file_download = fopen('./files/'.$this->file_name().'.txt', 'x');
-		fputs($file_download, 0);
-		fclose($file_download);
 	}
 	public function file_name() { return $this->file_name;}
 	public function file_name_tmp() { return $this->file_name_tmp;}
@@ -86,5 +65,4 @@ class Files
 	public function file_size_human() { return $this->file_size_human;}
 	public function file_extend() { return $this->file_extend;}
 	public function file_date() { return $this->file_date;}
-	public function file_download() { return $this->file_download;}
 }

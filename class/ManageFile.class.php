@@ -7,18 +7,16 @@ class ManageFile
 	{
 		$this->directory = $dir;
 	}
-
 	public function add(array $fileInfo)
 	{
 		$file = new Files($fileInfo);
 		return $file;
 	}
-	
 	public function getList(){
 		$listFile = array();
 		if ($dir = opendir($this->directory)){
 			while(false !== ($fichier = readdir($dir))){
-				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && $fichier != 'index.html'){
+				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep'){
 					$listFile[] = new Files($this->infoFile($fichier));
 				}
 			}
@@ -26,13 +24,12 @@ class ManageFile
 		}
 		return $listFile;
 	}
-
 	public function getInfoTotal(){
 		$sizeTotal = 0;
 		$count = 0;
 		if ($dir = opendir($this->directory)){
 			while(false !== ($fichier = readdir($dir))) {
-				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && preg_match('/.txt$/', $fichier) == 0 ) {
+				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep') {
 					$file = new Files($this->infoFile($fichier));
 					$sizeTotal += $file->file_size();
 					$count++;
@@ -42,13 +39,11 @@ class ManageFile
 		}
 		return array( 'tailleTotal' => $sizeTotal, 'nbFile' => $count);
 	}
-
 	public function getFile($file)
 	{
 		$fichier = new Files($this->infoFile($file));
 		return $fichier;
 	}
-
 	private function infoFile($file){
 		$infoFile = array();
 		$infoFile['name'] = basename($this->directory.$file);
