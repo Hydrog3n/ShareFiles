@@ -1,11 +1,11 @@
 <?php
 class ManageFile
 {
-	private $directory;
+	static $_directory;
 
 	public function __construct($dir)
 	{
-		$this->directory = $dir;
+		self::$_directory = $dir;
 	}
 
 	public function add(array $fileInfo)
@@ -13,10 +13,10 @@ class ManageFile
 		$file = new Files($fileInfo);
 		return $file;
 	}
-	
+
 	public function getList(){
 		$listFile = array();
-		if ($dir = opendir($this->directory)){
+		if ($dir = opendir(self::$_directory)){
 			while(false !== ($fichier = readdir($dir))){
 				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && $fichier != 'index.html'){
 					$listFile[] = new Files($this->infoFile($fichier));
@@ -30,7 +30,7 @@ class ManageFile
 	public function getInfoTotal(){
 		$sizeTotal = 0;
 		$count = 0;
-		if ($dir = opendir($this->directory)){
+		if ($dir = opendir(self::$_directory)){
 			while(false !== ($fichier = readdir($dir))) {
 				if($fichier != '.' && $fichier != '..' && $fichier != 'index.php' && $fichier != '.gitkeep' && preg_match('/.txt$/', $fichier) == 0 ) {
 					$file = new Files($this->infoFile($fichier));
@@ -51,8 +51,13 @@ class ManageFile
 
 	private function infoFile($file){
 		$infoFile = array();
-		$infoFile['name'] = basename($this->directory.$file);
-		$infoFile['size'] = filesize($this->directory.$file);
+		$infoFile['name'] = basename(self::$_directory.$file);
+		$infoFile['tmp_name'] = self::$_directory.$file;
+		$infoFile['size'] = filesize(self::$_directory.$file);
 		return $infoFile;
+	}
+	static public function getDir()
+	{
+		return self::$_directory;
 	}
 }
