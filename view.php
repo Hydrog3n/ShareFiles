@@ -10,11 +10,12 @@
               }
               if (isset ($file))
               {
+                $urlShare = $url.'?f='.$file->file_name();
             ?>
               <h1 class="cover-heading"><?php echo $file->file_name()." (".$file->file_size_human().")"; ?></h1>
               <p>Téléchargé : <?php echo $file->file_download(); ?></p>
               <label for ="url">Partager</label>
-              <input type="text" class="form-control" id="url" value="<?php echo $url.'?f='.$file->file_name(); ?>" ><br />
+              <input type="text" class="form-control" id="url" value="<?php echo $urlShare ?>" ><button id="copyme" data-clipboard-text="<?php echo $urlShare; ?>">Copy to Clipboard</button><br />
               <a href="./download.php?f=<?php echo $file->file_name(); ?>"><button class="btn btn-lg btn-info">Télécharger</button></a>
             <?php } ?>
             </div>
