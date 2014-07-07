@@ -15,7 +15,7 @@ class Files
 		if (isset($file['tmp_name']))
 			$this->file_name_tmp = $file['tmp_name'];
 
-		if (file_exists('./files/'.$file['name'].'.txt')){
+		if (file_exists(ManageFile::getDir().$file['name'].'.txt')){
 			$this->file_download = $this->downloadInfo($file['name']);
 		}
 
@@ -24,18 +24,18 @@ class Files
 		$this->file_size_human = $this->convSize($file['size']);
 		$this->file_extend = $this->extendType($file['name']);
 
-		if (file_exists('./files/'.$file['name'])){
-			$this->file_date = date ('d/m/Y', filemtime('./files/'.$file['name']));
+		if (file_exists(ManageFile::getDir().$file['name'])){
+			$this->file_date = date ('d/m/Y', filemtime(ManageFile::getDir().$file['name']));
 
 		} else {
 			$this->file_date = date ('d/m/Y', filemtime($file['tmp_name']));
 		}
 
 	}
-	
+
 	public function saveFile()
 	{$log = false;
-		if(move_uploaded_file($this->file_name_tmp, './files/'.basename($this->file_name)))
+		if(move_uploaded_file($this->file_name_tmp, ManageFile::getDir().basename($this->file_name)))
 		{
 			$this->createInformationFile();
 			$log = true;
@@ -61,8 +61,8 @@ class Files
 	}
 
 	private function downloadInfo($file_name) {
-		if (file_exists('./files/'.$file_name.'.txt')){
-			$file_lines = file('./files/'.$file_name.'.txt');
+		if (file_exists(ManageFile::getDir().$file_name.'.txt')){
+			$file_lines = file(ManageFile::getDir().$file_name.'.txt');
 			$download = $file_lines[0];
 		}
 		return $download;
@@ -76,7 +76,7 @@ class Files
 	private function createInformationFile()
 	{
 		$this->file_download = 0;
-		$file_download = fopen('./files/'.$this->file_name().'.txt', 'x');
+		$file_download = fopen(ManageFile::getDir().$this->file_name().'.txt', 'x');
 		fputs($file_download, 0);
 		fclose($file_download);
 	}
