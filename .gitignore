@@ -2,3 +2,7 @@
 config.php
 
 README.html
+
+bower_components/
+
+files/*
