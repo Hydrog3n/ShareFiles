@@ -1,2 +1,1 @@
-ZeroClipboard.config( { swfPath: "js/ZeroClipboard.swf" } );
-var client = new ZeroClipboard($('button#copyme'));
+var client = new ZeroClipboard( $('#copy-me') );
